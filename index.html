@@ -10,29 +10,77 @@
             font-family: Arial, sans-serif;
             background: #f4f4f4;
             color: #222;
+            overflow-x: hidden;
         }
         header {
             background: #222;
             color: #fff;
-            padding: 1rem;
+            padding: 0.3rem 0.7rem;
             text-align: center;
+        }
+        header h1 {
+            margin: 0.1em 0 0.05em 0;
+            font-size: 1.2rem;
+        }
+        header p {
+            margin: 0 0 0.1em 0;
+            font-size: 0.95rem;
         }
         main {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 2rem;
+            justify-content: center;
+            margin-top: 1rem;
+            min-height: 350px;
+            max-width: 100vw;
+            box-sizing: border-box;
         }
-        #plotly-3d {
-            width: 600px;
-            height: 400px;
-            margin-bottom: 2rem;
+        #left-panel {
+            width: 170px;
+            min-height: 320px;
             background: #fff;
             border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-right: 1rem;
+            padding: 0.7rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+        }
+        #right-panel {
+            width: 170px;
+            min-height: 320px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-left: 1rem;
+            padding: 0.7rem;
+            box-sizing: border-box;
+        }
+        #model-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 0.7rem 0;
+            flex: 1 1 auto;
+        }
+        #model-list li {
+            padding: 0.2rem 0.3rem;
+            border-bottom: 1px solid #eee;
+            font-size: 0.95rem;
+        }
+        #plotly-3d {
+            width: 420px;
+            height: 320px;
+            margin-bottom: 0;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
         }
         button {
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
+            padding: 0.4rem 0.7rem;
+            font-size: 0.95rem;
             border: none;
             background: #0078d7;
             color: #fff;
@@ -42,21 +90,55 @@
         button:hover {
             background: #005fa3;
         }
+        @media (max-width: 900px) {
+            main {
+                flex-direction: column;
+                align-items: center;
+                margin-top: 0.5rem;
+            }
+            #left-panel, #right-panel {
+                margin: 0.5rem 0;
+                width: 95vw;
+                min-width: 0;
+            }
+            #plotly-3d {
+                width: 95vw;
+                min-width: 0;
+            }
+        }
     </style>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header>
         <h1>Model Space</h1>
         <p>3D Model Visualization</p>
     </header>
-    <main>
-        <div id="plotly-3d"></div>
-        <button id="moveBtn">Move Circle</button>
-        <button id="addModelBtn">Add Model</button>
-        <button id="saveModelsBtn">Save Models</button>
-        <button id="loadModelsBtn">Load Models</button>
-        <input type="file" id="loadModelsInput" accept=".json" style="display:none;">
+    <main style="flex-direction: column;">
+        <div style="display: flex; flex-direction: row; align-items: flex-start; justify-content: center;">
+            <div id="left-panel">
+                <h3>Model Database</h3>
+                <div class="sidebar-buttons">
+                    <button id="addModelBtn">Add Model</button>
+                    <button id="saveModelsBtn">Save Models</button>
+                    <button id="loadModelsBtn">Load Models</button>
+                    <input type="file" id="loadModelsInput" accept=".json" style="display:none;">
+                </div>
+            </div>
+            <div id="center-panel" style="display: flex; flex-direction: column; align-items: center;">
+                <h3 style="margin-bottom: 0.5rem;">3D Plotly</h3>
+                <div id="plotly-3d"></div>
+            </div>
+            <div id="right-panel">
+                <h3>Model General Info</h3>
+                <ul id="model-list"></ul>
+            </div>
+        </div>
+        <div id="bottom-panel" style="margin: 1.5rem auto 0 auto; width: fit-content; display: flex; flex-direction: column; align-items: center;">
+            <h3 style="margin-bottom: 0.5rem;">Simple 2d Scatter Plot</h3>
+            <canvas id="ideal-dist-2d" width="420" height="320" style="background:#fff; border:1px solid #ccc; border-radius:8px;"></canvas>
+        </div>
     </main>
     <!-- Modal Dialog for Adding Model -->
     <div id="modelModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); align-items:center; justify-content:center;">
@@ -68,16 +150,29 @@
                     <input type="text" id="modelName" required>
                 </label><br><br>
                 <label>
-                    Concreteness:<br>
-                    <input type="number" id="modelConc" min="0" max="1" step="0.01" required>
+                    Concreteness: 
+                    <span id="concVal">0.5</span><br>
+                    <input type="range" id="modelConc" min="0" max="1" step="0.01" value="0.5" required>
                 </label><br><br>
                 <label>
-                    Mathematicality:<br>
-                    <input type="number" id="modelMath" min="0" max="1" step="0.01" required>
+                    Mathematicality: 
+                    <span id="mathVal">0.5</span><br>
+                    <input type="range" id="modelMath" min="0" max="1" step="0.01" value="0.5" required>
                 </label><br><br>
                 <label>
-                    Computationality:<br>
-                    <input type="number" id="modelComp" min="0" max="1" step="0.01" required>
+                    Computationality: 
+                    <span id="compVal">0.5</span><br>
+                    <input type="range" id="modelComp" min="0" max="1" step="0.01" value="0.5" required>
+                </label><br><br>
+                <label>
+                    Idealizationality: 
+                    <span id="idealVal">0.5</span><br>
+                    <input type="range" id="modelIdeal" min="0" max="1" step="0.01" value="0.5" required>
+                </label><br><br>
+                <label>
+                    Distortionality: 
+                    <span id="distVal">0.5</span><br>
+                    <input type="range" id="modelDist" min="0" max="1" step="0.01" value="0.5" required>
                 </label><br><br>
                 <button type="submit">Add</button>
                 <button type="button" id="cancelModelBtn">Cancel</button>
@@ -90,34 +185,46 @@
             name: "",
             concreteness: 0,
             mathematicality: 0,
-            computationality: 0
+            computationality: 0,
+            idealizationality: 0,
+            distortionality: 0
         };
 
         // Array to store multiple models
         const models = [];
+
+        // Update model list in right panel
+        function updateModelList() {
+            const ul = document.getElementById('model-list');
+            ul.innerHTML = '';
+            models.forEach(m => {
+                const li = document.createElement('li');
+                li.textContent = m.name;
+                ul.appendChild(li);
+            });
+        }
 
         // --- 3D Plotly Visualization ---
         function plotModels() {
             const x = models.map(m => m.concreteness);
             const y = models.map(m => m.mathematicality);
             const z = models.map(m => m.computationality);
-            const labels = models.map(m => m.name);
+            // Tooltip text for each model
+            const hoverText = models.map(m =>
+                `Name: ${m.name}<br>Concreteness: ${m.concreteness}<br>Mathematicality: ${m.mathematicality}<br>Computationality: ${m.computationality}<br>Idealizationality: ${m.idealizationality}<br>Distortionality: ${m.distortionality}`
+            );
 
             const trace = {
                 x: x,
                 y: y,
                 z: z,
-                text: labels,
-                mode: 'markers+text',
+                text: hoverText,
+                hoverinfo: 'text',
+                mode: 'markers',
                 type: 'scatter3d',
                 marker: {
                     size: 8,
                     color: '#0078d7'
-                },
-                textposition: 'top center',
-                textfont: {
-                    color: '#222',
-                    size: 12
                 }
             };
 
@@ -131,6 +238,66 @@
             };
 
             Plotly.newPlot('plotly-3d', [trace], layout, {responsive: true});
+            updateModelList();
+            plot2dModels();
+        }
+
+        // --- 2D Chart.js Visualization ---
+        let chart2d = null;
+        function plot2dModels() {
+            const ctx = document.getElementById('ideal-dist-2d').getContext('2d');
+            const data = {
+                datasets: [{
+                    label: 'Models',
+                    data: models.map(m => ({
+                        x: m.idealizationality,
+                        y: m.distortionality,
+                        label: m.name
+                    })),
+                    backgroundColor: '#0078d7',
+                    pointRadius: 6,
+                    pointHoverRadius: 10
+                }]
+            };
+            const config = {
+                type: 'scatter',
+                data: data,
+                options: {
+                    responsive: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const d = context.raw;
+                                    return [
+                                        `Name: ${d.label}`,
+                                        `Idealizationality: ${d.x}`,
+                                        `Distortionality: ${d.y}`
+                                    ];
+                                }
+                            }
+                        },
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Idealizationality' },
+                            min: 0, max: 1
+                        },
+                        y: {
+                            title: { display: true, text: 'Distortionality' },
+                            min: 0, max: 1
+                        }
+                    }
+                }
+            };
+            if (chart2d) {
+                chart2d.data = data;
+                chart2d.options = config.options;
+                chart2d.update();
+            } else {
+                chart2d = new Chart(ctx, config);
+            }
         }
 
         // Modal dialog elements
@@ -154,7 +321,9 @@
                 name: document.getElementById('modelName').value,
                 concreteness: parseFloat(document.getElementById('modelConc').value),
                 mathematicality: parseFloat(document.getElementById('modelMath').value),
-                computationality: parseFloat(document.getElementById('modelComp').value)
+                computationality: parseFloat(document.getElementById('modelComp').value),
+                idealizationality: parseFloat(document.getElementById('modelIdeal').value),
+                distortionality: parseFloat(document.getElementById('modelDist').value)
             };
             models.push(newModel);
             modelModal.style.display = 'none';
@@ -208,7 +377,26 @@
         });
 
         // Remove circle button functionality (optional: you can remove the button from HTML too)
-        document.getElementById('moveBtn').style.display = 'none';
+        const moveBtn = document.getElementById('moveBtn');
+        if (moveBtn) moveBtn.style.display = 'none';
+
+        // Range slider value display
+        const concSlider = document.getElementById('modelConc');
+        const mathSlider = document.getElementById('modelMath');
+        const compSlider = document.getElementById('modelComp');
+        const idealSlider = document.getElementById('modelIdeal');
+        const distSlider = document.getElementById('modelDist');
+        const concVal = document.getElementById('concVal');
+        const mathVal = document.getElementById('mathVal');
+        const compVal = document.getElementById('compVal');
+        const idealVal = document.getElementById('idealVal');
+        const distVal = document.getElementById('distVal');
+
+        concSlider.addEventListener('input', () => concVal.textContent = concSlider.value);
+        mathSlider.addEventListener('input', () => mathVal.textContent = mathSlider.value);
+        compSlider.addEventListener('input', () => compVal.textContent = compSlider.value);
+        idealSlider.addEventListener('input', () => idealVal.textContent = idealSlider.value);
+        distSlider.addEventListener('input', () => distVal.textContent = distSlider.value);
 
         // Initial plot
         plotModels();

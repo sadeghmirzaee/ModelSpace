@@ -1,0 +1,66 @@
+[
+  {
+    "name": "San Francisco Bay Scale model",
+    "concreteness": 0.92,
+    "mathematicality": 0.18,
+    "computationality": 0.23,
+    "idealizationality": 0.77,
+    "distortionality": 0.13
+  },
+  {
+    "name": "Lotka-Volterra equation",
+    "concreteness": 0.13,
+    "mathematicality": 0.97,
+    "computationality": 0.21,
+    "idealizationality": 0.34,
+    "distortionality": 0.81
+  },
+  {
+    "name": "Schelling model of segregation",
+    "concreteness": 0.22,
+    "mathematicality": 0.15,
+    "computationality": 0.89,
+    "idealizationality": 0.58,
+    "distortionality": 0.44
+  },
+  {
+    "name": "Derosophila the model organism",
+    "concreteness": 0.81,
+    "mathematicality": 0.37,
+    "computationality": 0.41,
+    "idealizationality": 0.19,
+    "distortionality": 0.67
+  },
+  {
+    "name": "Harmonic equations for pendulum etc",
+    "concreteness": 0.29,
+    "mathematicality": 0.85,
+    "computationality": 0.33,
+    "idealizationality": 0.92,
+    "distortionality": 0.25
+  },
+  {
+    "name": "Watson and Crick DNA helix",
+    "concreteness": 0.74,
+    "mathematicality": 0.22,
+    "computationality": 0.27,
+    "idealizationality": 0.41,
+    "distortionality": 0.59
+  },
+  {
+    "name": "xDNA",
+    "concreteness": 0.61,
+    "mathematicality": 0.31,
+    "computationality": 0.12,
+    "idealizationality": 0.85,
+    "distortionality": 0.33
+  },
+  {
+    "name": "Game of Life cellular automata",
+    "concreteness": 0.44,
+    "mathematicality": 0.54,
+    "computationality": 0.97,
+    "idealizationality": 0.28,
+    "distortionality": 0.72
+  }
+]
