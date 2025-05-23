@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Model Space</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            color: #222;
+        }
+        header {
+            background: #222;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+        svg {
+            border: 1px solid #ccc;
+            background: #fff;
+            margin-bottom: 2rem;
+        }
+        button {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: none;
+            background: #0078d7;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #005fa3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Model Space</h1>
+        <p>SVG Demo with Interactive Button</p>
+    </header>
+    <main>
+        <svg id="mysvg" width="400" height="300" viewBox="0 0 400 300">
+            <circle id="mycircle" cx="200" cy="150" r="50" fill="#0078d7" />
+            <text x="200" y="155" text-anchor="middle" fill="#fff" font-size="24" font-family="Arial">Hello</text>
+        </svg>
+        <button id="moveBtn">Move Circle</button>
+        <button id="addModelBtn">Add Model</button>
+        <button id="saveModelsBtn">Save Models</button>
+        <button id="loadModelsBtn">Load Models</button>
+        <input type="file" id="loadModelsInput" accept=".json" style="display:none;">
+    </main>
+    <!-- Modal Dialog for Adding Model -->
+    <div id="modelModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.3); align-items:center; justify-content:center;">
+        <div style="background:#fff; padding:2rem; border-radius:8px; min-width:300px; box-shadow:0 2px 8px rgba(0,0,0,0.2);">
+            <h2>Add Model</h2>
+            <form id="modelForm">
+                <label>
+                    Name:<br>
+                    <input type="text" id="modelName" required>
+                </label><br><br>
+                <label>
+                    Concreteness:<br>
+                    <input type="number" id="modelConc" min="0" max="1" step="0.01" required>
+                </label><br><br>
+                <label>
+                    Mathematicality:<br>
+                    <input type="number" id="modelMath" min="0" max="1" step="0.01" required>
+                </label><br><br>
+                <label>
+                    Computationality:<br>
+                    <input type="number" id="modelComp" min="0" max="1" step="0.01" required>
+                </label><br><br>
+                <button type="submit">Add</button>
+                <button type="button" id="cancelModelBtn">Cancel</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        // General model object template
+        const model = {
+            name: "",
+            concreteness: 0,
+            mathematicality: 0,
+            computationality: 0
+        };
+
+        // Array to store multiple models
+        const models = [];
+
+        // Modal dialog elements
+        const addModelBtn = document.getElementById('addModelBtn');
+        const modelModal = document.getElementById('modelModal');
+        const modelForm = document.getElementById('modelForm');
+        const cancelModelBtn = document.getElementById('cancelModelBtn');
+
+        addModelBtn.addEventListener('click', () => {
+            modelModal.style.display = 'flex';
+        });
+
+        cancelModelBtn.addEventListener('click', () => {
+            modelModal.style.display = 'none';
+            modelForm.reset();
+        });
+
+        modelForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newModel = {
+                name: document.getElementById('modelName').value,
+                concreteness: parseFloat(document.getElementById('modelConc').value),
+                mathematicality: parseFloat(document.getElementById('modelMath').value),
+                computationality: parseFloat(document.getElementById('modelComp').value)
+            };
+            models.push(newModel);
+            modelModal.style.display = 'none';
+            modelForm.reset();
+            // Optionally, you can log or update UI here
+            console.log(models);
+            // Optionally, you can trigger saveModelsBtn.click() here to prompt download automatically
+        });
+
+        const circle = document.getElementById('mycircle');
+        const btn = document.getElementById('moveBtn');
+        let moved = false;
+
+        btn.addEventListener('click', () => {
+            if (!moved) {
+                circle.setAttribute('cx', 250);
+                circle.setAttribute('fill', '#e81123');
+                moved = true;
+                btn.textContent = 'Reset Circle';
+            } else {
+                circle.setAttribute('cx', 200);
+                circle.setAttribute('fill', '#0078d7');
+                moved = false;
+                btn.textContent = 'Move Circle';
+            }
+        });
+
+        // Save Models button
+        const saveModelsBtn = document.getElementById('saveModelsBtn');
+        saveModelsBtn.addEventListener('click', () => {
+            const dataStr = JSON.stringify(models, null, 2);
+            const blob = new Blob([dataStr], {type: "application/json"});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = "model-database.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Load Models button and input
+        const loadModelsBtn = document.getElementById('loadModelsBtn');
+        const loadModelsInput = document.getElementById('loadModelsInput');
+        loadModelsBtn.addEventListener('click', () => {
+            loadModelsInput.click();
+        });
+        loadModelsInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const loaded = JSON.parse(e.target.result);
+                    if (Array.isArray(loaded)) {
+                        models.length = 0;
+                        loaded.forEach(m => models.push(m));
+                        alert("Models loaded successfully.");
+                    } else {
+                        alert("Invalid file format.");
+                    }
+                } catch {
+                    alert("Error reading file.");
+                }
+            };
+            reader.readAsText(file);
+        });
+    </script>
+</body>
+</html>
