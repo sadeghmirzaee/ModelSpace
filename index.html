@@ -23,10 +23,12 @@
             align-items: center;
             margin-top: 2rem;
         }
-        svg {
-            border: 1px solid #ccc;
-            background: #fff;
+        #plotly-3d {
+            width: 600px;
+            height: 400px;
             margin-bottom: 2rem;
+            background: #fff;
+            border: 1px solid #ccc;
         }
         button {
             padding: 0.5rem 1rem;
@@ -41,17 +43,15 @@
             background: #005fa3;
         }
     </style>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
     <header>
         <h1>Model Space</h1>
-        <p>SVG Demo with Interactive Button</p>
+        <p>3D Model Visualization</p>
     </header>
     <main>
-        <svg id="mysvg" width="400" height="300" viewBox="0 0 400 300">
-            <circle id="mycircle" cx="200" cy="150" r="50" fill="#0078d7" />
-            <text x="200" y="155" text-anchor="middle" fill="#fff" font-size="24" font-family="Arial">Hello</text>
-        </svg>
+        <div id="plotly-3d"></div>
         <button id="moveBtn">Move Circle</button>
         <button id="addModelBtn">Add Model</button>
         <button id="saveModelsBtn">Save Models</button>
@@ -96,6 +96,43 @@
         // Array to store multiple models
         const models = [];
 
+        // --- 3D Plotly Visualization ---
+        function plotModels() {
+            const x = models.map(m => m.concreteness);
+            const y = models.map(m => m.mathematicality);
+            const z = models.map(m => m.computationality);
+            const labels = models.map(m => m.name);
+
+            const trace = {
+                x: x,
+                y: y,
+                z: z,
+                text: labels,
+                mode: 'markers+text',
+                type: 'scatter3d',
+                marker: {
+                    size: 8,
+                    color: '#0078d7'
+                },
+                textposition: 'top center',
+                textfont: {
+                    color: '#222',
+                    size: 12
+                }
+            };
+
+            const layout = {
+                margin: { l: 0, r: 0, b: 0, t: 0 },
+                scene: {
+                    xaxis: { title: 'Concreteness', range: [0, 1] },
+                    yaxis: { title: 'Mathematicality', range: [0, 1] },
+                    zaxis: { title: 'Computationality', range: [0, 1] }
+                }
+            };
+
+            Plotly.newPlot('plotly-3d', [trace], layout, {responsive: true});
+        }
+
         // Modal dialog elements
         const addModelBtn = document.getElementById('addModelBtn');
         const modelModal = document.getElementById('modelModal');
@@ -122,27 +159,9 @@
             models.push(newModel);
             modelModal.style.display = 'none';
             modelForm.reset();
+            plotModels();
             // Optionally, you can log or update UI here
             console.log(models);
-            // Optionally, you can trigger saveModelsBtn.click() here to prompt download automatically
-        });
-
-        const circle = document.getElementById('mycircle');
-        const btn = document.getElementById('moveBtn');
-        let moved = false;
-
-        btn.addEventListener('click', () => {
-            if (!moved) {
-                circle.setAttribute('cx', 250);
-                circle.setAttribute('fill', '#e81123');
-                moved = true;
-                btn.textContent = 'Reset Circle';
-            } else {
-                circle.setAttribute('cx', 200);
-                circle.setAttribute('fill', '#0078d7');
-                moved = false;
-                btn.textContent = 'Move Circle';
-            }
         });
 
         // Save Models button
@@ -176,6 +195,7 @@
                     if (Array.isArray(loaded)) {
                         models.length = 0;
                         loaded.forEach(m => models.push(m));
+                        plotModels();
                         alert("Models loaded successfully.");
                     } else {
                         alert("Invalid file format.");
@@ -186,6 +206,12 @@
             };
             reader.readAsText(file);
         });
+
+        // Remove circle button functionality (optional: you can remove the button from HTML too)
+        document.getElementById('moveBtn').style.display = 'none';
+
+        // Initial plot
+        plotModels();
     </script>
 </body>
 </html>
