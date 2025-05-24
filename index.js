@@ -225,8 +225,22 @@ document.getElementById('animateBtn').addEventListener('click', () => {
         m.mathematicality = Math.min(1, Math.max(0, m.mathematicality + (Math.random() - 0.5) * 0.08));
         m.computationality = Math.min(1, Math.max(0, m.computationality + (Math.random() - 0.5) * 0.08));
     });
-    plotModels();
+
+    // Update only the Plotly 3D plot in-place
+    const x = models.map(m => m.concreteness);
+    const y = models.map(m => m.mathematicality);
+    const z = models.map(m => m.computationality);
+    const hoverText = models.map(m =>
+        `Name: ${m.name}<br>Concreteness: ${m.concreteness}<br>Mathematicality: ${m.mathematicality}<br>Computationality: ${m.computationality}<br>Idealizationality: ${m.idealizationality}<br>Distortionality: ${m.distortionality}`
+    );
+    Plotly.update('plotly-3d', {
+        x: [x],
+        y: [y],
+        z: [z],
+        text: [hoverText]
+    });
 });
+//end of animate button functionality
 
 // Initial plot
 plotModels();
