@@ -93,12 +93,20 @@
     </div>
     <div id="modelInfo"></div>
 
+    <!-- Model Details Dialog -->
+    <div id="model-details" class="model-details-dialog" style="display: none;">
+        <div class="model-details-content">
+            <span class="model-details-close">&times;</span>
+            <div id="model-details-body"></div>
+        </div>
+    </div>
+
     <!-- Third-party libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/DragControls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Application scripts -->
     <script src="scripts/fileHandler.js"></script>
     <script src="scripts/ModelsVisualization.js"></script>
