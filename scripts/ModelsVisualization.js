@@ -221,12 +221,12 @@ class ModelsVisualization {
 
 
 
- createModelLabel(text, color) {
+    createModelLabel(text, color) {
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         canvas.width = 256;
         canvas.height = 64;
-        
+
         context.font = 'bold 24px Helvetica';
         // Convert hex color to CSS color string
         const r = (color >> 16) & 255;
@@ -235,13 +235,13 @@ class ModelsVisualization {
         context.fillStyle = `rgb(${r}, ${g}, ${b})`;
         context.textAlign = 'center';
         context.fillText(text, 128, 32);
-        
+
         const texture = new THREE.CanvasTexture(canvas);
         const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
         const sprite = new THREE.Sprite(spriteMaterial);
         sprite.scale.set(15, 4, 1);
         return sprite;
- }
+    }
 
     setupModelClickHandler() {
         // Only set up once
@@ -253,7 +253,7 @@ class ModelsVisualization {
         const domElement = document.getElementById('visualization-canvas');
         if (!domElement) return;
 
-        domElement.addEventListener('click', function(event) {
+        domElement.addEventListener('click', function (event) {
             if (!self.camera) return;
             // Calculate mouse position in normalized device coordinates
             const rect = domElement.getBoundingClientRect();
@@ -280,8 +280,6 @@ class ModelsVisualization {
         body.innerHTML = "<p>Loading...</p>";
         dialog.style.display = 'flex';
 
-        console.log("Showing details for model:", model);
-        
         // Fetch and render markdown if mdfile is present
         if (model.mdfile) {
             const filePath = `data/descriptions/${model.mdfile}`;
@@ -302,6 +300,11 @@ class ModelsVisualization {
             body.innerHTML = "<p>No description available for this model.</p>";
         }
 
+         // Optional: close on outside click
+        window.onclick = (e) => {
+            if (e.target === dialog) dialog.style.display = 'none';
+        };
+
         // Close handler
         const closeBtn = dialog.querySelector('.model-details-close');
         if (closeBtn) {
@@ -309,10 +312,7 @@ class ModelsVisualization {
                 dialog.style.display = 'none';
             };
         }
-        // Optional: close on outside click
-        dialog.onclick = (e) => {
-            if (e.target === dialog) dialog.style.display = 'none';
-        };
+       
     }
 
     createModelHoverHighlight(renderer, camera, domElement) {

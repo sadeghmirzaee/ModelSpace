@@ -18,6 +18,14 @@ Located in **Sausalito, California**, the model covers over **1.5 acres** and re
 - Now a public visitor center and educational exhibit
 - Built **before computer simulation was practical**
 
+## Fuzzy  Membership
+
+| Model Dimension          | Degree |
+|--------------------------|--------|
+| Concrete Model           | 0.1    |
+| Mathematical Model       | 0.1    |
+| Computational Model      | 1.0    |
+
 ## Engineering Insight
 
 The model helped assess the environmental impact of large-scale proposals, including:
