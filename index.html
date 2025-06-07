@@ -1,82 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Model Space</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <!-- Updated Plotly and Chart.js CDN links -->
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
-    <!-- D3 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="styles/main.css">
 </head>
-
 <body>
     <header>
-        <h1>Model Space</h1>
-        <p>under development</p>
+        <div id="leftButtons" class="headerButtons">
+            <input type="file" id="modelDatabaseInput" accept=".json" style="display: none;">
+            <button id="loadModels">Load Models</button>
+        </div>
+        <div id="info">
+            Model Space
+        </div>
+        <div id="rightButtons" class="headerButtons">
+            <button id="aboutButton">About</button>
+        </div>
     </header>
-    <main class="main-flex-container">
-        <div class="main-flex-row">
-            <div id="left-panel">
-                <h3>Model Database</h3>
-                <div class="sidebar-buttons">
-                    <button id="addModelBtn">Add Model</button>
-                    <button id="saveModelsBtn">Save Models</button>
-                    <button id="loadModelsBtn">Load Models</button>
-                    <input type="file" id="loadModelsInput" accept=".json" style="display:none;">
-                    <button id="loadExcelBtn">Load Excel</button>
-                    <input type="file" id="excelInput" accept=".xlsx, .xls, .csv" style="display:none;">
-                    <button id="wordChartBtn">Word Frequency</button>
-                    <button id="animateBtn">Animate</button>
-                </div>
+
+    <!-- About Dialog -->
+    <div id="aboutDialog" class="dialog">
+        <div class="dialog-content">
+            <span class="close-button">&times;</span>
+            <h2>About Model Space</h2>
+            <div class="dialog-text">
+                <p>Model Space is a 3D visualization tool for exploring scientific models in a three-dimensional space defined by:</p>
+                <ul>
+                    <li>Concreteness (X-axis)</li>
+                    <li>Mathematicality (Y-axis)</li>
+                    <li>Computationality (Z-axis)</li>
+                </ul>
+                <p>Each model is represented as a sphere whose:</p>
+                <ul>
+                    <li>Position reflects its scores on these three dimensions</li>
+                    <li>Color is derived from its position (RGB = XYZ)</li>
+                </ul>
+
+                <h3>How to Use</h3>
+                <p>1. Loading Models:</p>
+                <ul>
+                    <li>Click the "Load Models" button to select a JSON file containing model data</li>
+                    <li>The file should contain an array of models with concreteness, mathematicality, and computationality values</li>
+                </ul>
+
+                <p>2. Navigation:</p>
+                <ul>
+                    <li>Left-click and drag to rotate the view</li>
+                    <li>Right-click and drag to pan</li>
+                    <li>Scroll wheel to zoom in/out</li>
+                    <li>Hover over models to highlight them</li>
+                </ul>
+
+                <h3>Understanding the Visualization</h3>
+                <p>The three axes represent different aspects of scientific models:</p>
+                
+                <h4>Concreteness (X-axis, Red)</h4>
+                <p>Measures how tangible or physical a model is. Higher values indicate more concrete, physical representations, while lower values suggest more abstract concepts.</p>
+
+                <h4>Mathematicality (Y-axis, Green)</h4>
+                <p>Represents the degree of mathematical formalization. Higher values indicate more mathematical models with formal equations and proofs, while lower values suggest more qualitative descriptions.</p>
+
+                <h4>Computationality (Z-axis, Blue)</h4>
+                <p>Indicates how computational or algorithmic a model is. Higher values represent models that are more readily implemented as computer programs or simulations.</p>
+
+                <h3>Color Coding</h3>
+                <p>Each model's color is determined by its position:</p>
+                <ul>
+                    <li>Red component comes from Concreteness value</li>
+                    <li>Green component comes from Mathematicality value</li>
+                    <li>Blue component comes from Computationality value</li>
+                </ul>
+                <p>This creates an intuitive visual connection between a model's position and its appearance.</p>
+
+                <h3>Project Information</h3>
+                <p>Created by Sadegh Mirzaee</p>
+                <p>For more information, visit: <a href="https://github.com/sadeghmirzaee/" target="_blank">GitHub Repository</a></p>
+                
+                <h3>Technical Details</h3>
+                <p>Built using:</p>
+                <ul>
+                    <li>Three.js for 3D visualization</li>
+                    <li>Modern JavaScript (ES6+)</li>
+                    <li>HTML5 Canvas</li>
+                    <li>CSS3 for styling</li>
+                </ul>
             </div>
-            <div id="center-panel" class="center-flex-col">
-                <div id="plotly-3d"></div>
-            </div>
-            <div id="right-panel">
-                <h3>Model General Info</h3>
-                <div>details will come here</div>
-            </div>
-        </div>
-        <div id="bottom-panel" class="bottom-panel">
-            <h3 class="mb-half">d3sandbox</h3>
-            <div id="d3sandbox" class="d3sandbox"></div>
-        </div>
-    </main>
-    <!-- Modal Dialog for Adding Model -->
-    <div id="modelModal" class="modal-bg">
-        <div class="modal-content">
-            <h2>Add Model</h2>
-            <form id="modelForm">
-                <label>
-                    Name:<br>
-                    <input type="text" id="modelName" required>
-                </label><br><br>
-                <label>
-                    Concreteness:
-                    <span id="concVal">0.5</span><br>
-                    <input type="range" id="modelConc" min="0" max="1" step="0.01" value="0.5" required>
-                </label><br><br>
-                <label>
-                    Mathematicality:
-                    <span id="mathVal">0.5</span><br>
-                    <input type="range" id="modelMath" min="0" max="1" step="0.01" value="0.5" required>
-                </label><br><br>
-                <label>
-                    Computationality:
-                    <span id="compVal">0.5</span><br>
-                    <input type="range" id="modelComp" min="0" max="1" step="0.01" value="0.5" required>
-                </label><br><br>
-                <button type="submit">Add</button>
-                <button type="button" id="cancelModelBtn">Cancel</button>
-            </form>
         </div>
     </div>
-    <script src="index.js"></script>
-</body>
 
+    <div id="visualization-container">
+        <canvas id="visualization-canvas"></canvas>
+    </div>
+    <div id="modelInfo"></div>
+
+    <!-- Third-party libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/DragControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
+    
+    <!-- Application scripts -->
+    <script src="scripts/FileHandler.js"></script>
+    <script src="scripts/ModelsVisualization.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
 </html>
