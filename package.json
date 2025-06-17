@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "@types/three": "^0.177.0"
+  },
+  "dependencies": {
+    "tweakpane": "^4.0.5"
   }
 }

@@ -2,6 +2,8 @@
 
 /* global THREE */
 /* global TWEEN */
+/* global Pane */
+
 
 class Main {
     constructor() {
@@ -15,6 +17,8 @@ class Main {
 
         // Group for organizing the scene
         this.modelsGroup = new THREE.Group();
+        // Group for organizing the grids
+        this.gridGroup = new THREE.Group();
 
         // Components
         this.modelsVisualization = null;
@@ -31,6 +35,7 @@ class Main {
         this.initControls();
         this.createRoomCorner();
         this.setupComponents();
+        this.createUI(); // Add UI creation here
         this.animate();
     }
 
@@ -49,23 +54,23 @@ class Main {
         this.directionalLight.position.set(130, 130, -50);
         this.scene.add(this.directionalLight);
 
-        // Create a small sphere to represent the light position
-        const sphereGeometry = new THREE.SphereGeometry(2, 8, 8);
-        const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-        this.lightControl = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        this.lightControl.position.copy(this.directionalLight.position);
-        this.scene.add(this.lightControl);
+        // // Create a small sphere to represent the light position
+        // const sphereGeometry = new THREE.SphereGeometry(2, 8, 8);
+        // const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+        // this.lightControl = new THREE.Mesh(sphereGeometry, sphereMaterial);
+        // this.lightControl.position.copy(this.directionalLight.position);
+        // this.scene.add(this.lightControl);
 
-        // Add light helper
-        this.lightHelper = new THREE.DirectionalLightHelper(this.directionalLight, 5);
-        this.scene.add(this.lightHelper);
+        // // Add light helper
+        // this.lightHelper = new THREE.DirectionalLightHelper(this.directionalLight, 5);
+        // this.scene.add(this.lightHelper);
     }
 
     initCamera() {
         this.camera = new THREE.PerspectiveCamera(35, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.camera.position.set(350, 150, 120);
         // this.camera.lookAt(200, 0, 0);
-     }
+    }
 
     initRenderer() {
         const canvas = document.getElementById('visualization-canvas');
@@ -81,14 +86,14 @@ class Main {
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.05;
-        
+
         // Set the controls target to match the lookAt point
         this.controls.target.set(50, 50, 50);
         this.controls.update();
 
         // Setup drag controls for the light control sphere
         this.dragControls = new THREE.DragControls([this.lightControl], this.camera, this.renderer.domElement);
-        
+
         // Update light position when control sphere is dragged
         this.dragControls.addEventListener('drag', (event) => {
             // Update both directional light and helper positions
@@ -216,27 +221,30 @@ class Main {
         // Create and add the grids for all six faces
         // Front XY plane (z = 0)
         const xyGridFront = createGrid('xy', 0);
-        this.scene.add(xyGridFront);
+        this.gridGroup.add(xyGridFront);
 
         // Back XY plane (z = gridSize)
         const xyGridBack = createGrid('xy', gridSize);
-        this.scene.add(xyGridBack);
+        this.gridGroup.add(xyGridBack);
 
         // Bottom XZ plane (y = 0)
         const xzGridBottom = createGrid('xz', 0);
-        this.scene.add(xzGridBottom);
+        this.gridGroup.add(xzGridBottom);
 
         // Top XZ plane (y = gridSize)
         const xzGridTop = createGrid('xz', gridSize);
-        this.scene.add(xzGridTop);
+        this.gridGroup.add(xzGridTop);
 
         // Left YZ plane (x = 0)
         const yzGridLeft = createGrid('yz', 0);
-        this.scene.add(yzGridLeft);
+        this.gridGroup.add(yzGridLeft);
 
         // Right YZ plane (x = gridSize)
         const yzGridRight = createGrid('yz', gridSize);
-        this.scene.add(yzGridRight);
+        this.gridGroup.add(yzGridRight);
+
+        // Add the grid group to the scene
+        this.scene.add(this.gridGroup);
     }
 
     setupComponents() {
@@ -277,6 +285,19 @@ class Main {
         });
     }
 
+    createUI() {
+        // Create a simple Tweakpane UI
+        // const pane = new Tweakpane.Pane(); // Correct for global access
+        // // Example: add a folder and a simple slider (can be customized later)
+        // pane.addBlade({
+        //     view: 'slider',
+        //     label: 'Example',
+        //     min: 0,
+        //     max: 100,
+        //     value: 50,
+        // });
+    }
+
     animate() {
         requestAnimationFrame(() => this.animate());
         TWEEN.update();
@@ -286,6 +307,8 @@ class Main {
             this.lightHelper.update();
         }
         this.renderer.render(this.scene, this.camera);
+        // this.modelsGroup.rotation.y -= 0.001; // Optional rotation for the models group
+        // this.gridGroup.rotation.y -= 0.001; // Optional rotation for the grid group
     }
 
     onWindowResize() {

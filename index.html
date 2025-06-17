@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Model Space</title>
     <link rel="stylesheet" href="styles/main.css">
 </head>
+
 <body>
     <header>
         <div id="leftButtons" class="headerButtons">
@@ -24,7 +26,8 @@
             <span class="close-button">&times;</span>
             <h2>About Model Space</h2>
             <div class="dialog-text">
-                <p>Model Space is a 3D visualization tool for exploring scientific models in a three-dimensional space defined by:</p>
+                <p>Model Space is a 3D visualization tool for exploring scientific models in a three-dimensional space
+                    defined by:</p>
                 <ul>
                     <li>Concreteness (X-axis)</li>
                     <li>Mathematicality (Y-axis)</li>
@@ -40,7 +43,8 @@
                 <p>1. Loading Models:</p>
                 <ul>
                     <li>Click the "Load Models" button to select a JSON file containing model data</li>
-                    <li>The file should contain an array of models with concreteness, mathematicality, and computationality values</li>
+                    <li>The file should contain an array of models with concreteness, mathematicality, and
+                        computationality values</li>
                 </ul>
 
                 <p>2. Navigation:</p>
@@ -53,15 +57,18 @@
 
                 <h3>Understanding the Visualization</h3>
                 <p>The three axes represent different aspects of scientific models:</p>
-                
+
                 <h4>Concreteness (X-axis, Red)</h4>
-                <p>Measures how tangible or physical a model is. Higher values indicate more concrete, physical representations, while lower values suggest more abstract concepts.</p>
+                <p>Measures how tangible or physical a model is. Higher values indicate more concrete, physical
+                    representations, while lower values suggest more abstract concepts.</p>
 
                 <h4>Mathematicality (Y-axis, Green)</h4>
-                <p>Represents the degree of mathematical formalization. Higher values indicate more mathematical models with formal equations and proofs, while lower values suggest more qualitative descriptions.</p>
+                <p>Represents the degree of mathematical formalization. Higher values indicate more mathematical models
+                    with formal equations and proofs, while lower values suggest more qualitative descriptions.</p>
 
                 <h4>Computationality (Z-axis, Blue)</h4>
-                <p>Indicates how computational or algorithmic a model is. Higher values represent models that are more readily implemented as computer programs or simulations.</p>
+                <p>Indicates how computational or algorithmic a model is. Higher values represent models that are more
+                    readily implemented as computer programs or simulations.</p>
 
                 <h3>Color Coding</h3>
                 <p>Each model's color is determined by its position:</p>
@@ -74,8 +81,9 @@
 
                 <h3>Project Information</h3>
                 <p>Created by Sadegh Mirzaee</p>
-                <p>For more information, visit: <a href="https://github.com/sadeghmirzaee/" target="_blank">GitHub Repository</a></p>
-                
+                <p>For more information, visit: <a href="https://github.com/sadeghmirzaee/" target="_blank">GitHub
+                        Repository</a></p>
+
                 <h3>Technical Details</h3>
                 <p>Built using:</p>
                 <ul>
@@ -107,9 +115,14 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/DragControls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Tweakpane for GUI controls -->
+    <script src="https://cdn.jsdelivr.net/npm/tweakpane@4.0.5/dist/tweakpane.min.umd.js"></script>
     <!-- Application scripts -->
     <script src="scripts/fileHandler.js"></script>
     <script src="scripts/ModelsVisualization.js"></script>
     <script src="scripts/main.js"></script>
+
+    
 </body>
+
 </html>

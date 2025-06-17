@@ -1,5 +1,5 @@
 class ModelsVisualization {
-    constructor(group) {
+    constructor(group, pane) {
         this.group = group;
         this.models = [];
         this.modelMeshes = [];
@@ -8,6 +8,7 @@ class ModelsVisualization {
         this.camera = null; // Will be set from outside
         this.currentHighlightedModel = null;
         this.dialogInitialized = false;
+        this.pane = pane; // Store the pane reference
         this.createDefaultVisualization();
         this.setupModelClickHandler();
     }
@@ -111,6 +112,8 @@ class ModelsVisualization {
         this.models.forEach(model => {
             this.createModelMesh(model);
         });
+
+
     }
 
     createAxisCone(position, rotation, color) {

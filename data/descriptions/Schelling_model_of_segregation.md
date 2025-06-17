@@ -8,7 +8,7 @@
 
 ## Overview
 
-The **Schelling Model of Segregation** is a computational model introduced by economist Thomas Schelling in the 1970s. It represents how **individual preferences**, even if mild and tolerant, can unintentionally lead to **large-scale patterns of social segregation**.
+The **Schelling Model of Segregation** is a computational model introduced by Thomas Schelling in the 1970s. It represents how **individual preferences**, even if mild and tolerant, can unintentionally lead to **large-scale patterns of social segregation**.
 
 The model simulates a hypothetical neighborhood as a **2D checkerboard**, with agents of two types (e.g., red and blue) scattered across cells. Agents move if the fraction of their neighbors that are "like them" falls below a certain threshold.
 
@@ -16,11 +16,9 @@ The model simulates a hypothetical neighborhood as a **2D checkerboard**, with a
 
 ## Philosophical Significance
 
-In your thesis, the Schelling model is identified as the **paradigmatic case of a computational model**, exemplifying algorithmic structure, procedural update, and **emergent behavior**:contentReference[oaicite:0]{index=0}.
+The Schelling model is chosen here as the **paradigmatic case of a computational model**, exemplifying algorithmic structure, procedural update, and **emergent behavior**. It demonstrates how macro-level social patterns can arise from micro-level decisions without any central coordination. It is non-mathematical and unpredictable, despite being rule-based and deterministic.  This is a defining feature of computational models (**automaton**) in contrast to mathematical ones.
 
-- The model is implemented as an **automaton**, operating via discrete steps and local interactions.
-- It demonstrates how **macro-level social patterns** can arise from **micro-level decisions** without any central coordination.
-- It’s also notable for being **non-mathematical in formulation**, despite being rule-based and deterministic.
+Other major cellular automata are Conway's Game of Life, and Wolfram's one-dimensional automaton. 
 
 ---
 
@@ -31,23 +29,6 @@ In your thesis, the Schelling model is identified as the **paradigmatic case of 
 | Concrete Model           | 0.1    |
 | Mathematical Model       | 0.1    |
 | Computational Model  | 1.0 |
-
-As shown in Table 3.3 of the thesis, this model scores high in the **computational** dimension, and low in others. It is a clear case of what your thesis calls **“algorithmic modeling”**, which contrasts with continuous mathematical modeling like the Lotka-Volterra equations:contentReference[oaicite:1]{index=1}.
-
----
-
-## Interpretive Insight
-
-> “Even mild preferences for similarity can yield extreme social separation.”
-
-This model is a powerful **epistemic tool**: it doesn’t predict specific social outcomes, but shows how seemingly benign conditions can produce unexpected collective phenomena.
-
-The model is especially useful for philosophical reflection on:
-- **Emergence** and **nonlinear dynamics**
-- The limitations of **aggregative reasoning**
-- The value of **simulation as insight**, not just prediction
-
----
 
 ## Further Reading
 
