@@ -1,8 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Model Space</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Space — 3D Scientific Model Tool</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Model Space is an interactive 3D visualization tool which supports a fuzzy categorizaion, by positioning scientific models in a conceptual space defined by Concreteness, Mathematicality, and Computationality. Created by Sadegh Mirzaee.">
+    <meta name="keywords" content="Model Space, categorizaion, fuzzy membership, scientific models, 3D visualization, interactive interface, model visualization, computational modeling, philosophy of science, interactive tool, concreteness, mathematicality, computationality">
+    <meta name="author" content="Sadegh Mirzaee">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="Model Space — 3D Scientific Model Visualization Tool">
+    <meta property="og:description" content="categorizaion of scientific models through an interactive 3D space defined by Concreteness, Mathematicality, and Computationality.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sadeghmirzaee.github.io/ModelSpace/">
+    <meta property="og:image" content="https://sadeghmirzaee.github.io/ModelSpace/assets/preview.png">
+
+    <!-- Google site verification -->
+    <meta name="google-site-verification" content="UYsJlgTwLqfQ-QXuw0w5dFlCqIgKoRy9BXJ0NNuE8rg" />
+
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="styles/main.css">
 </head>
 
@@ -13,7 +33,8 @@
             <button id="loadModels">Load Models</button>
         </div>
         <div id="info">
-            Model Space
+            <h1>Model Space</h1>
+            <p class="subtitle">An Interactive 3D Space for Categorization of Scientific Models</p>
         </div>
         <div id="rightButtons" class="headerButtons">
             <button id="aboutButton">About</button>
@@ -26,79 +47,71 @@
             <span class="close-button">&times;</span>
             <h2>About Model Space</h2>
             <div class="dialog-text">
-                <p>Model Space is a 3D visualization tool for exploring scientific models in a three-dimensional space
-                    defined by:</p>
+                <p>Scientific models come in many forms, from equations and simulations to metaphors and diagrams. Instead of defining what counts as a model once and for all, Model Space treats “model” as a multidimensional and prototypical concept. It provides a framework where models can be positioned along various dimensions allowing spatial analysis to complement traditional conceptual analysis.</p>
+                <p>Model Space thus serves as a meta-model: a flexible environment for exploring how models differ, overlap, and relate across diverse scientific contexts.</p>
+                <p><strong>Model Space for Fuzzy Categorization</strong> is a 3D visualization of a space designed to help fuzzy categorization. It represents models within a 3 dimensional                  coordinate system defined by:</p>
                 <ul>
-                    <li>Concreteness (X-axis)</li>
-                    <li>Mathematicality (Y-axis)</li>
-                    <li>Computationality (Z-axis)</li>
+                    <li><strong>Concreteness (X-axis):</strong> How physical or tangible a model is.</li>
+                    <li><strong>Mathematicality (Y-axis):</strong> The degree of formal mathematical structure.</li>
+                    <li><strong>Computationality (Z-axis):</strong> How algorithmic or programmable a model is.</li>
                 </ul>
-                <p>Each model is represented as a sphere whose:</p>
-                <ul>
-                    <li>Position reflects its scores on these three dimensions</li>
-                    <li>Color is derived from its position (RGB = XYZ)</li>
-                </ul>
+
+                <p>Each model appears as a colored sphere whose position corresponds to its values on these three                    conceptual dimensions. The RGB color of each sphere visually encodes its coordinates in this<strong>model space</strong>.</p>
 
                 <h3>How to Use</h3>
-                <p>1. Loading Models:</p>
-                <ul>
-                    <li>Click the "Load Models" button to select a JSON file containing model data</li>
-                    <li>The file should contain an array of models with concreteness, mathematicality, and
-                        computationality values</li>
-                </ul>
-
-                <p>2. Navigation:</p>
-                <ul>
-                    <li>Left-click and drag to rotate the view</li>
-                    <li>Right-click and drag to pan</li>
-                    <li>Scroll wheel to zoom in/out</li>
-                    <li>Hover over models to highlight them</li>
-                </ul>
+                <ol>
+                    <li><strong>Load Models:</strong> Click “Load Models” to upload a JSON file containing model data.</li>
+                    <li><strong>Navigation:</strong> 
+                        <ul>
+                            <li>Left-click + drag → rotate the view</li>
+                            <li>Right-click + drag → pan</li>
+                            <li>Scroll → zoom in/out</li>
+                            <li>Hover → highlight models</li>
+                        </ul>
+                    </li>
+                </ol>
 
                 <h3>Understanding the Visualization</h3>
-                <p>The three axes represent different aspects of scientific models:</p>
+                <p>This conceptual visualization highlights how scientific models vary along three key philosophical
+                    dimensions:</p>
 
                 <h4>Concreteness (X-axis, Red)</h4>
-                <p>Measures how tangible or physical a model is. Higher values indicate more concrete, physical
-                    representations, while lower values suggest more abstract concepts.</p>
+                <p>From abstract ideas to tangible representations of physical phenomena.</p>
 
                 <h4>Mathematicality (Y-axis, Green)</h4>
-                <p>Represents the degree of mathematical formalization. Higher values indicate more mathematical models
-                    with formal equations and proofs, while lower values suggest more qualitative descriptions.</p>
+                <p>From qualitative descriptions to highly formal mathematical systems.</p>
 
                 <h4>Computationality (Z-axis, Blue)</h4>
-                <p>Indicates how computational or algorithmic a model is. Higher values represent models that are more
-                    readily implemented as computer programs or simulations.</p>
+                <p>From conceptual models to executable algorithms and simulations.</p>
 
                 <h3>Color Coding</h3>
-                <p>Each model's color is determined by its position:</p>
+                <p>The color of each sphere corresponds to its coordinates in the model space:</p>
                 <ul>
-                    <li>Red component comes from Concreteness value</li>
-                    <li>Green component comes from Mathematicality value</li>
-                    <li>Blue component comes from Computationality value</li>
+                    <li><strong>Red</strong> → Concreteness</li>
+                    <li><strong>Green</strong> → Mathematicality</li>
+                    <li><strong>Blue</strong> → Computationality</li>
                 </ul>
-                <p>This creates an intuitive visual connection between a model's position and its appearance.</p>
 
                 <h3>Project Information</h3>
-                <p>Created by Sadegh Mirzaee</p>
-                <p>For more information, visit: <a href="https://github.com/sadeghmirzaee/" target="_blank">GitHub
-                        Repository</a></p>
+                <p>Created by <a href="https://sadeghmirzaee.github.io/" target="_blank" rel="noopener">Sadegh Mirzaee</a>.</p>
+                <p>Source code and documentation available on the <a href="https://github.com/sadeghmirzaee/ModelSpace" target="_blank" rel="noopener">GitHub Repository</a>.</p>
 
                 <h3>Technical Details</h3>
-                <p>Built using:</p>
                 <ul>
-                    <li>Three.js for 3D visualization</li>
-                    <li>JavaScript (ES6+)</li>
-                    <li>HTML5 Canvas</li>
-                    <li>CSS3 for styling</li>
+                    <li>Built with <a href="https://threejs.org/" target="_blank">Three.js</a> for 3D rendering</li>
+                    <li>Uses JavaScript (ES6+), HTML5 Canvas, and CSS3</li>
+                    <li>Optimized for desktop and mobile browsers</li>
                 </ul>
+
+                <h3>Keywords</h3>
+                <p>Model Space · 3D Visualization · Scientific Models · Computational Philosophy · Interactive Modeling</p>
             </div>
         </div>
     </div>
 
-    <div id="visualization-container">
-        <canvas id="visualization-canvas"></canvas>
-    </div>
+    <main id="visualization-container">
+        <canvas id="visualization-canvas" aria-label="3D visualization canvas of the Model Space tool"></canvas>
+    </main>
     <div id="modelInfo"></div>
 
     <!-- Model Details Dialog -->
@@ -115,14 +128,12 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/DragControls.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <!-- Tweakpane for GUI controls -->
     <script src="https://cdn.jsdelivr.net/npm/tweakpane@4.0.5/dist/tweakpane.min.umd.js"></script>
+
     <!-- Application scripts -->
     <script src="scripts/fileHandler.js"></script>
     <script src="scripts/ModelsVisualization.js"></script>
     <script src="scripts/main.js"></script>
-
-    
 </body>
 
 </html>

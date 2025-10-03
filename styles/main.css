@@ -28,6 +28,25 @@ header {
     grid-column: 2;
 }
 
+/* Tighter, narrower header info area */
+#info {
+    max-width: 420px;
+    justify-self: center;
+}
+
+#info h1 {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.1;
+}
+
+#info .subtitle {
+    margin: 4px 0 0 0;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 1.2;
+}
+
 #fileUploadContainer {
     padding: 0 20px;
 }
