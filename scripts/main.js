@@ -42,16 +42,17 @@ class Main {
     initScene() {
         this.scene = new THREE.Scene();
         this.scene.background = this.backgroundCreation();
+        //this.scene.background = new THREE.Color(0x999999); // Set background to white
 
         // Add group to scene
         this.scene.add(this.modelsGroup);
 
         // Add lights
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
         this.scene.add(ambientLight);
 
-        this.directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-        this.directionalLight.position.set(130, 130, -50);
+        this.directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        this.directionalLight.position.set(230, 230, -50);
         this.scene.add(this.directionalLight);
 
         // // Create a small sphere to represent the light position
@@ -119,10 +120,17 @@ class Main {
 
         // Helper function to get color based on 3D position
         const getColorFromPosition = (x, y, z) => {
+            // Make the color darker and more gray, but keep the color coding
+            const r = x / gridSize;
+            const g = y / gridSize;
+            const b = z / gridSize;
+            // Blend with gray (0.2, 0.2, 0.2) for a darker effect
+            const grayFactor = 0.6; // 0 = full color, 1 = full gray
+            const gray = 0.2;
             return new THREE.Color(
-                x / gridSize,  // Red channel (Concreteness)
-                y / gridSize,  // Green channel (Mathematicality)
-                z / gridSize   // Blue channel (Computationality)
+                r * (1 - grayFactor) + gray * grayFactor,
+                g * (1 - grayFactor) + gray * grayFactor,
+                b * (1 - grayFactor) + gray * grayFactor
             );
         };
 
@@ -223,25 +231,25 @@ class Main {
         const xyGridFront = createGrid('xy', 0);
         this.gridGroup.add(xyGridFront);
 
-        // Back XY plane (z = gridSize)
-        const xyGridBack = createGrid('xy', gridSize);
-        this.gridGroup.add(xyGridBack);
+        // // Back XY plane (z = gridSize)
+        // const xyGridBack = createGrid('xy', gridSize);
+        // this.gridGroup.add(xyGridBack);
 
         // Bottom XZ plane (y = 0)
         const xzGridBottom = createGrid('xz', 0);
         this.gridGroup.add(xzGridBottom);
 
-        // Top XZ plane (y = gridSize)
-        const xzGridTop = createGrid('xz', gridSize);
-        this.gridGroup.add(xzGridTop);
+        // // Top XZ plane (y = gridSize)
+        // const xzGridTop = createGrid('xz', gridSize);
+        // this.gridGroup.add(xzGridTop);
 
         // Left YZ plane (x = 0)
         const yzGridLeft = createGrid('yz', 0);
         this.gridGroup.add(yzGridLeft);
 
-        // Right YZ plane (x = gridSize)
-        const yzGridRight = createGrid('yz', gridSize);
-        this.gridGroup.add(yzGridRight);
+        // // Right YZ plane (x = gridSize)
+        // const yzGridRight = createGrid('yz', gridSize);
+        // this.gridGroup.add(yzGridRight);
 
         // Add the grid group to the scene
         this.scene.add(this.gridGroup);

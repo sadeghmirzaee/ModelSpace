@@ -35,24 +35,24 @@ class ModelsVisualization {
                 "name": "San Francisco Bay Scale model",
                 "mdfile": "San_Francisco_Bay_Scale_model.md",
                 "concreteness": 0.92,
-                "mathematicality": 0.18,
-                "computationality": 0.23,
+                "mathematicality": 0.08,
+                "computationality": 0.03,
 
             },
             {
                 "name": "Lotka-Volterra equation",
                 "mdfile": "Lotka-Volterra_equation.md",
-                "concreteness": 0.13,
+                "concreteness": 0.05,
                 "mathematicality": 0.97,
-                "computationality": 0.21,
+                "computationality": 0.1,
 
 
             },
             {
                 "name": "Schelling model of segregation",
                 "mdfile": "Schelling_model_of_segregation.md",
-                "concreteness": 0.22,
-                "mathematicality": 0.15,
+                "concreteness": 0.09,
+                "mathematicality": 0.1,
                 "computationality": 0.89,
 
 
@@ -106,7 +106,42 @@ class ModelsVisualization {
                     { "concreteness": 0.60, "mathematicality": 0.70, "computationality": 0.81 },
                     { "concreteness": 0.62, "mathematicality": 0.72, "computationality": 0.79 }
                 ]
-            }
+                },
+                {
+                    "name": "dummy1",
+                    "mdfile": "",
+                    "concreteness": 0.17,
+                    "mathematicality": 0.82,
+                    "computationality": 0.39
+                },
+                {
+                    "name": "dummy2",
+                    "mdfile": "",
+                    "concreteness": 0.63,
+                    "mathematicality": 0.27,
+                    "computationality": 0.91
+                },
+                {
+                    "name": "dummy3",
+                    "mdfile": "",
+                    "concreteness": 0.48,
+                    "mathematicality": 0.56,
+                    "computationality": 0.12
+                },
+                {
+                    "name": "dummy4",
+                    "mdfile": "",
+                    "concreteness": 0.75,
+                    "mathematicality": 0.33,
+                    "computationality": 0.68
+                },
+                {
+                    "name": "dummy5",
+                    "mdfile": "",
+                    "concreteness": 0.29,
+                    "mathematicality": 0.94,
+                    "computationality": 0.57
+                },
         ];
 
         this.models.forEach(model => {
@@ -209,15 +244,15 @@ class ModelsVisualization {
         // Add click event reference
         mesh.userData.modelRef = model;
 
-        // Add label for the model name with the same color as the sphere
-        const label = this.createModelLabel(model.name, colorcode);
-        label.position.copy(mesh.position);
-        label.position.y += 5; // Offset label above the sphere
+    // Add label for the model name with the same color as the sphere
+    // const label = this.createModelLabel(model.name, colorcode);
+    // label.position.copy(mesh.position);
+    // label.position.y += 5; // Offset label above the sphere
 
-        // Add to scene
-        this.group.add(mesh);
-        this.group.add(label);
-        this.modelMeshes.push(mesh);
+    // Add to scene
+    this.group.add(mesh);
+    // this.group.add(label); // Commented out to hide model name labels
+    this.modelMeshes.push(mesh);
     }
 
 
