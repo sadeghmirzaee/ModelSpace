@@ -26,10 +26,9 @@ header {
     font-weight: bold;
     text-align: center;
     grid-column: 2;
-}
 
-/* Tighter, narrower header info area */
-#info {
+
+    /* Tighter, narrower header info area */
     max-width: 420px;
     justify-self: center;
 }
@@ -291,7 +290,7 @@ button:focus {
     display: flex;
     flex-direction: column;
 
-  
+
 }
 
 .model-details-close {
